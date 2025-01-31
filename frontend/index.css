@@ -1,0 +1,39 @@
+*{
+    font-family:sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+form{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height:150px;
+}
+input{
+    border:1px solid black;
+}
+h2{
+    margin-top:20px;
+    color:blue;
+}
+input,textarea,form{
+    width:200px;
+}
+button{
+    background:grey;
+    color:white;
+    cursor:pointer;
+    padding: 0.5rem 1rem;
+    border-radius:20px;
+    font-size:20px;
+    border:1px solid black;
+}
+body{
+    padding:3px;
+}
+.fa-trash-can{
+    color:red;
+    margin-bottom:10px;
+    cursor:pointer;
+}
