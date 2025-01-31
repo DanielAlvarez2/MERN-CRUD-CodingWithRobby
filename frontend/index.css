@@ -37,3 +37,8 @@ body{
     margin-bottom:10px;
     cursor:pointer;
 }
+.fa-pen-to-square{
+    margin: 0 5px;
+    color:green;
+    cursor:pointer;
+}

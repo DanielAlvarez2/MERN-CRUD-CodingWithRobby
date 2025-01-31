@@ -7,6 +7,11 @@ export default function App() {
     title:'',
     body:''
   })
+  const [updateForm, setUpdateForm] = useState({
+    _id: null,
+    title:'',
+    body:''
+  })
   useEffect(()=>{
     fetchNotes()
   },[])
@@ -35,6 +40,31 @@ export default function App() {
     setNotes(res.data) // NOT res.data.notes
     console.log(res.data)
   }
+  const handleUpdateFieldChange = (e)=>{
+    const {value,name} = e.target
+    setUpdateForm({
+      ...updateForm,
+      [name]: value
+    })
+  }
+  const toggleUpdate = (note)=>{
+    setUpdateForm({title:note.title,body:note.body,_id:note._id})
+  }
+  const updateNote = async (e)=>{
+    e.preventDefault()
+    const {title,body} = updateForm
+    const res = await axios.put(`http://localhost:2150/notes/${updateForm._id}`,{title,body})
+    const newNotes = [...notes]
+    const noteIndex = notes.findIndex(note=>note._id===updateForm._id)
+    newNotes[noteIndex] = res.data // NOT res.data.note
+    setNotes(newNotes)
+    setUpdateForm({
+      _id:null,
+      title:'',
+      body:''
+    })
+  }
+
   return (
       <div className='App'>
         <h2>Notes: </h2>
@@ -43,10 +73,13 @@ export default function App() {
               <div key={note._id}>
                 <h3>{note.title}</h3>
                 <h4>{note.body}</h4>
+                <i onClick={()=>toggleUpdate(note)} className="fa-solid fa-pen-to-square"></i>
                 <i onClick={()=>deleteNote(note._id)} className="fa-solid fa-trash-can"></i>
               </div>
             )
           })}
+
+        {!updateForm._id &&
           <div>
             <h2>Create Note:</h2>
             <form onSubmit={createNote}>
@@ -72,6 +105,36 @@ export default function App() {
               <button type='submit' >Create Note</button>
             </form>
           </div>
+          }
+
+          {updateForm._id && 
+          <div>
+            <h2>Update Note:</h2>
+            <form onSubmit={updateNote}>
+              <div>
+                <label htmlFor='update-title'>Title</label>
+                <input  value={updateForm.title} 
+                        name="title" 
+                        onChange={handleUpdateFieldChange}
+                        id='update-title' 
+                />
+              </div>
+              <div>
+                <label htmlFor='update-body' >Body</label>
+                <textarea value={updateForm.body} 
+                          name="body" 
+                          id='update-body' 
+                          onChange={handleUpdateFieldChange}
+                ></textarea>
+              </div>
+              <button type='submit'>Update Note</button>
+            </form>
+          </div>
+          }
+
+
+
+
       </div>
   )
 }
