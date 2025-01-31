@@ -42,3 +42,6 @@ body{
     color:green;
     cursor:pointer;
 }
+input,textarea{
+    padding-left:3px;
+}
